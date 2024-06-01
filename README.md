@@ -10,6 +10,11 @@ Under 🚧 🛠️
     ```
     gcc -Iheaders -o kori main.c lib/*.c
     ```
+    - Alternatively if can download the pre-combiled version                 https://github.com/koribot/korify/releases/tag/v0.0.0 
+      , after donwloading it you cant open it directly as it will close immediately, you can run  it by opening cmd in current directory where the pre-combiled version is downloaded and run:
+      ```
+        kori.exe "choose your command"
+      ```
 - Run the program
  
     - Encrypt file
@@ -53,8 +58,11 @@ Under 🚧 🛠️
 
 ## Commands
 - `-ef`👉 short for encrypt file
-   - ./kori -ef "the path to file"
+   - ./kori -ef sample.txt encrypted.txt
    - ./kori -ef sample.txt  -> get the sample.txt on the current directory
+   
+- `-df`👉 short for decrypt file
+   - ./kori -df encrypted.txt decrypted.txt
 
 
 
