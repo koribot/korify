@@ -5,11 +5,60 @@ Under 🚧 🛠️
 - This is me trying to explore C, the concept of pointers, and the like. The encryption "algorithm" is not good (it's actually bad) and needs a lot of work.
 
 ## Usage
-```sh
-./kori -ef sample.txt
-```
+- You need to install C compiler, (gcc llvm)
+- Compile the program
+    ```
+    gcc -Iheaders -o kori main.c lib/*.c
+    ```
+- Run the program
+ 
+    - Encrypt file
+    ```
+     ./kori -ef "path to your source file" "path to your encrypted output file"
+    ```
+    ```
+    $ ./kori -ef  main_encrypted.txt main_decrypted.txt
+        ------------------------------
+        | File successfully loaded |
+        ------------------------------
+        
+        Enter your encryption string: korify
+        ------------------------------
+        | ** Encryption successful ** |
+        ------------------------------
+        --------------------------------------------
+        | Encrypted output file ->: main_decrypted.txt |
+        --------------------------------------------
+    ```
+    - Decrypt file
+    ```
+     ./kori -df "path to your encrypted source file" "path to your decrypted output file"
+    ```
+    ```
+    $ kori -df main_encrypted.txt main_decrypted.txt
+        ------------------------------
+        | File successfully loaded |
+        ------------------------------
+        
+        Enter decrypting string: korify
+        
+        ---------------------------
+        | Successfully Decrypted |
+        ---------------------------
+    ```
+    - Even if you provide wrong decryption key it will still print "Successfully Decrypted",
+      but the output file will not be the same as the original file
+
+
 
 ## Commands
 - `-ef`👉 short for encrypt file
    - ./kori -ef "the path to file"
    - ./kori -ef sample.txt  -> get the sample.txt on the current directory
+
+
+
+## Todos
+- make a better way of checking valid path
+- improve encrypting logic
+- simplify the code
