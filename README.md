@@ -58,11 +58,17 @@ Under 🚧 🛠️
 
 ## Commands
 - `-ef`👉 short for encrypt file
-   - ./kori -ef sample.txt encrypted.txt
+   - `./kori -ef sample.txt encrypted.txt`
    - ./kori -ef sample.txt  -> get the sample.txt on the current directory
    
 - `-df`👉 short for decrypt file
-   - ./kori -df encrypted.txt decrypted.txt
+   - `./kori -df encrypted.txt decrypted.txt`
+
+- `-h` or `help`👉 prints help options
+   - `./kori -h` or `./kori -help`
+
+- `-v` or `version`👉 prints current version of korify
+   - `./kori -v` or `./kori -version`
 
 
 
