@@ -3,3 +3,5 @@ ks.exe
 filesearcher.c
 .vscode
 output2.txt
+main_encrypted.txt
+main_decrypted.txt
