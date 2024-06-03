@@ -19,11 +19,19 @@ int encrypt(struct _iobuf *file, int *integer_value_of_passowrd, struct _iobuf *
 
 		if (ch == '\n')
 		{
+			if (strcmp(mode, "debug") == 0)
+			{
+				printf("\n");
+			}
 			fputc(0, encrypted_output_file);
 			continue;
 		}
 		if (ch == '\t')
 		{
+			if (strcmp(mode, "debug") == 0)
+			{
+				printf("\t");
+			}
 			fputc(9, encrypted_output_file);
 			continue;
 		}
