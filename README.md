@@ -93,3 +93,4 @@ korify is a  CLI tool designed for encrypting and decrypting plain text files of
 - [ ] make a better way of checking valid path
 - [ ] improve encrypting logic - maybe provide a list of encryption "technique" to users
 - [ ] make it cross platform
+- [ ] use UTF-8 encoding instead of ASC II 
