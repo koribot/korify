@@ -1,229 +1,188 @@
-^EJ?HQ@A[wOP@EKiDy
-^EJ?HQ@A[wOP@HE>iDy
-^EJ?HQ@A[wOPNEJCiDy
-^EJ?HQ@A[wOP@>KKHiDy
-^EJ?HQ@A[wQJEOP@iDy
-^EJ?HQ@A[wOP@=NCiDy
-^EJ?HQ@A[]CAP~D=N;EJLQP;=J@;?KJRANP;L=OOSKN@;?D=N=?PANO;PK;EJPiD]
-^EJ?HQ@A[]AJ?NULPiD]
+#include "std_headers.h"
+#include "encrypt.h"
+#include "decrypt.h"
+#include "getChar_input_and_convert_password_characters_to_int.h"
+#include "is_valid_command.h"
+#include "is_valid_path.h"
+#include "print_korify_help_options.h"
 
 
-^EB@AB[;3%*nm
-^EJ?HQ@A[wSEJ@KSOiDy[jj[%J?HQ@A[3EJ@KSO[|,%[DA=@ANO[BKN[#AP"EHA|PPNE>QPAO
-^AJ@EB
-
-^@ABEJA[,|//3+. ;%*%0%|(;/%6![lkk
-
-jj[QOEJC[OP=PE?[CHK>=H[79[KB[?I@O[EJOPA=@[KB[?KLUEJC[BNKI[EJEPE=H;?I@O[PK[@UJ=IE?[=NN=U[?D=Nee?I@;HEOP[cKH@[EILHAIAJP=PEKJ[h[KH@;I=EJ;QOEJC;@UJ=IE?;OEVA;KB;=NN=U;LN=?PE?A;i?d
-?KJOP[?D=N[eEJEPE=H;?I@O79[x[W]hDAHL]g[]hR]g[]hhRANOEKJ]g[]hAB]g[]h@B]Yv
-?KJOP[OEVA;P[=NN=U;OEVA[x[OEVAKBcEJEPE=H;?I@Od[j[OEVAKBcEJEPE=H;?I@O7k9dv
-jeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeej
-
-jjj[{>NEAB[2=HE@=PA[EJLQP[?KII=J@O
-jjj[{L=N=I[=NCR
-jjj[{NAPQNJ[>KKHA=J
->KKH[EO2=HE@~KII=J@c?D=N[e=NCRd
-W
-	BKN[cOEVA;P[>[x[kv[>[w[=NN=U;OEVAv[>ffd
-	W
-		EB[cOPN?ILc=NCRg[EJEPE=H;?I@O7>9d[xx[kd
-		W
-			NAPQNJ[PNQAv
-		Y
-	Y
-	NAPQNJ[B=HOAv
-Y
-
->KKH[EO2=HE@,=PDc?KJOP[?D=N[eL=PDd
-W
-	EB[c=??AOOcL=PDg[";+'d[\x[hld
-	W
-		NAPQNJ[PNQAv
-	Y
-	AHOA
-	W
-
-		NAPQNJ[B=HOAv
-	Y
-Y
+#define PASSWORD_INITIAL_SIZE 100
+#define KORIFY_CURRENT_VERSION "0.0.0"
 
 
-RKE@[OPN;PK;EJPc?D=N[ee;L=OOSKN@;OPNEJCg[EJP[e;EJPd
-W
-	BKN[cEJP[E[x[kv[E[w[OPNHAJce;L=OOSKN@;OPNEJCdv[Effd
-	W
-		e;EJP[fx[cEJPdce;L=OOSKN@;OPNEJCd7E9v
-	Y
-Y
 
-EJP[I=EJcEJP[=NC?g[?D=N[e=NCR79d
-W
-	EB[c=NC?[wx[ld
-	W
-		LNEJPBc]*K[?KII=J@[EO[L=OOA@i[0NU[QOEJC[GKNE[hDAHLi8J]dv
-		NAPQNJ[lv
-	Y
+// This is not in used
+void str_to_int(const char *_password_string, int *_int)
+{
+	for (int i = 0; i < strlen(_password_string); i++)
+	{
+		*_int += (int)_password_string[i];
+	}
+}
 
-	BKN[cEJP[T[x[lv[T[w[=NC?v[Tffd
-	W
-		EB[c\EO2=HE@~KII=J@c=NCR7T9dd
-		W
-			LNEJPBc]%JR=HE@[~KII=J@u[`O8J]g[=NCR7T9dv
-			>NA=Gv
-		Y
 
-		jj[hAB[?KII=J@
-		EB[cOPN?ILc=NCR7T9g[]hAB]d[xx[kd
-		W
+int main(int argc, char *argv[])
+{
 
-			EB[c\c=NCR7T[f[l9[aa[OPNHAJc=NCR7T[f[l9d[y[mdd
-			W
-				LNEJPBc]hCB[c#AP[BEHAd[JAA@O[BEHA[@ENA?PKNU]dv
-				>NA=Gv
-			Y
+	// printf("%s\n", *argv++);
+	if (argc <= 1)
+	{
+		printf("No command is passed. Try using kori -ef to encrypt file and -df to decrypt file.\n");
+		print_korify_help_options();
+		return 1;
+	}
 
-			EB[c\EO2=HE@,=PDc=NCR7T[f[l9dd
-			W
-				LNEJPBc]%JR=HE@[KN[L=PD[@KAO[JKP[ATEOPu[`O8J]g[=NCR7T[f[l9dv
-				>NA=Gv
-			Y
+	for (int x = 1; x < argc; x++)
+	{
+		if (!is_valid_command(argv[x]))
+		{
+			printf("Invalid Command: %s\n", argv[x]);
+			break;
+		}
 
-			EB[c\c=NCR7T[f[m9dd
-			W
-				LNEJPBc]5KQ[JAA@[PK[LNKRE@A[KQPLQP[@ENA?PKNU[8J]dv
-				LNEJPBc]GKNE[hAB[`O[cUKQN[AJ?NULPA@;KQPLQP;BEHA[L=PDd[8J]g[=NCR7T[f[l9dv
-				LNEJPBc]QOA[i[PK[OLA?EBU[?QNNAJP[@ENA?PKNU]dv
-				>NA=Gv
-			Y
-			"%(![eBEHA[x[BKLAJc=NCR7T[f[l9g[]N]dv
-			EB[cBEHA[xx[*1((d
-			W
-				LANNKNc]!NNKN[KLAJEJC[BEHA]dv
-				NAPQNJ[!4%0;"|%(1.!v
-			Y
-			jj[?D=N[e@AB=QHP;BEHA;J=IA[x[]AJ?NULPA@iPTP]v
-			jj[?D=N[BEHAJ=IA7lkmo9v
-			jj[OLNEJPBcBEHAJ=IAg[]`O88`O]g[=NCR7Tfm9g[@AB=QHP;BEHA;J=IAdv
-			"%(![eAJ?NULPA@;KQPLQP;BEHA[x[BKLAJc=NCR7T[f[m9g[]S]dv
+		if (strcmp(argv[x], "-ef") == 0)
+		{
+			// Handling encryption command
+			if (argc < x + 3)
+			{
+				printf("-ef (Encrypt file) needs file path and output directory.\n");
+				break;
+			}
 
-			EB[cAJ?NULPA@;KQPLQP;BEHA[xx[*1((d
-			W
-				LANNKNc]X[!NNKN[KLAJEJC[BEHA[hy[]dv
-				LNEJPBc]X[AJ?NULPA@;KQPLQP;BEHA[L=PD[`O[8J]g[=NCR7T[f[m9dv
-				LNEJPBc]X[%P[@KAO[JKP[=QPKI=PE?=HHU[?NA=PA[BKH@ANO[>QP[EP[@KAO[?NA=PA[BEHAO[8J]dv[jj[JAA@[PK[D=RA[=[BQJ?PEKJ[PK[?NA=PA[@ENA?PKNU[EB[JKP[ATEOPEJC
-				>NA=Gv
-				NAPQNJ[!4%0;"|%(1.!v
-			Y
+			if (!is_valid_path(argv[x + 1]))
+			{
+				printf("Invalid or non-existent file path: %s\n", argv[x + 1]);
+				break;
+			}
 
-			EJP[EJPACAN;R=HQA;KB;L=OOKSN@v
-			?D=N[eL=OOSKN@v
-			LQPOc]hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh]dv
-			LNEJPBc]X["EHA[OQ??AOOBQHHU[HK=@A@[X8J]dv
-			LQPOc]hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh]dv
+			FILE *file = fopen(argv[x + 1], "r");
+			if (!file)
+			{
+				perror("Error opening file");
+				return EXIT_FAILURE;
+			}
 
-			LQPOc]]dv
-			LNEJPBc]!JPAN[UKQN[AJ?NULPEKJ[OPNEJCu[]dv
-			EJP[NAOQHP[x[CAP~D=N;EJLQP;=J@;?KJRANP;L=OOSKN@;?D=N=?PANO;PK;EJPcaL=OOSKN@g[,|//3+. ;%*%0%|(;/%6!g[CAP?D=Ng[aEJPACAN;R=HQA;KB;L=OOKSN@dv
-			LQPOc]hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh]dv
-			EB[cNAOQHP[xx[kd
-			W
-				EJP[EO;AJ?NULPEKJ;OQ?AOO[x[AJ?NULPcBEHAg[aEJPACAN;R=HQA;KB;L=OOKSN@g[AJ?NULPA@;KQPLQP;BEHAdv
-				B?HKOAcAJ?NULPA@;KQPLQP;BEHAdv
+			char *password;
+			int integer_value_of_password = 0;
+			puts("------------------------------");
+			printf("| File successfully loaded |\n");
+			puts("------------------------------\n");
 
-				EB[cEO;AJ?NULPEKJ;OQ?AOO[xx[ld
-				W
-					LNEJPBc]/KIAPDEJC[SAJP[SNKJC[?DA?G[AJ?NULPcdu[8J]dv
-					>NA=Gv
-				Y
+			printf("Enter your encryption string: ");
+			int result = getChar_input_and_convert_password_characters_to_int(&password, PASSWORD_INITIAL_SIZE, getchar, &integer_value_of_password);
+			puts("------------------------------");
 
-				LNEJPBc]X[ee[!J?NULPEKJ[OQ??AOOBQH[ee[X8J]dv
-				LQPOc]hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh]dv
-				LQPOc]hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh]dv
-				LNEJPBc]X[!J?NULPA@[KQPLQP[BEHAL=PD[hyu[`O[X8J]g[=NCR7T[f[m9dv
-				LQPOc]hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh]dv
-			Y
-			EB[cB?HKOAcBEHAd[\x[kd
-			W
-				LANNKNc]!NNKN[?HKOEJC[BEHA]dv
-				NAPQNJ[!4%0;"|%(1.!v
-			Y
-			B?HKOAcBEHAdv
-			NAPQNJ[!4%0;/1~~!//v
-		Y
+			if (result == 1)
+			{
+				fclose(file);
+				printf("Error getting encryption string.\n");
+				return EXIT_FAILURE;
+			}
 
-		EB[cOPN?ILc=NCR7T9g[]h@B]d[xx[kd
-		W
-			EB[c\c=NCR7T[f[l9[aa[OPNHAJc=NCR7T[f[l9d[y[mdd
-			W
-				LNEJPBc]h@B[c@A?NULP[BEHAd[JAA@O[BEHA[@ENA?PKNU]dv
-				>NA=Gv
-			Y
-			EB[c\EO2=HE@,=PDc=NCR7T[f[l9dd
-			W
-				LNEJPBc]%JR=HE@[KN[L=PD[@KAO[JKP[ATEOPu[`O8J]g[=NCR7T[f[l9dv
-				>NA=Gv
-		[[[Y
+			FILE *encrypted_output_file = fopen(argv[x + 2], "w");
+			if (!encrypted_output_file)
+			{
+				perror("Error opening output file");
+				fclose(encrypted_output_file);
+				fclose(file);
+				return EXIT_FAILURE;
+			}
 
-			EB[c\c=NCR7T[f[m9dd
-			W
-				LNEJPBc]5KQ[JAA@[PK[LNKRE@A[KQPLQP[@ENA?PKNU[8J]dv
-				LNEJPBc]GKNE[h@B[`O[cUKQN[AJ?NULPA@;KQPLQP;BEHA[L=PDd[8J]g[=NCR7T[f[l9dv
-				LNEJPBc]QOA[i[PK[OLA?EBU[?QNNAJP[@ENA?PKNU]dv
-				>NA=Gv
-			Y
+			int is_encryption_success = encrypt(file, &integer_value_of_password, encrypted_output_file, "");
+			if (is_encryption_success == 1)
+			{
+				printf("Encryption failed.\n");
+				fclose(encrypted_output_file);
+				fclose(file);
+				return EXIT_FAILURE;
+			}
 
-			"%(![eAJ?NULPA@;OKQN?A;BEHA[x[BKLAJc=NCR7T[f[l9g[]N]dv
-			EB[c\AJ?NULPA@;OKQN?A;BEHAd
-			W
-				LANNKNc]!NNKN[KLAJEJC[@A?NULPA@[BEHA]dv
-				NAPQNJ[!4%0;"|%(1.!v
-			Y
-			LQPOc]hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh]dv
-			LNEJPBc]X["EHA[OQ??AOOBQHHU[HK=@A@[X8J]dv
-			LQPOc]hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh]dv
+			printf("| ** Encryption successful ** |\n");
+			puts("------------------------------");
+			printf("| Encrypted output file: %s |\n", argv[x + 2]);
+			puts("------------------------------");
 
-			EJP[;EJPACAN;R=HQA;KB;L=OOSKN@v
-			?D=N[e;L=OOSKN@v
-			LNEJPBc]!JPAN[@A?NULPEJC[OPNEJCu[]dv
-			EJP[NAOQHP[x[CAP~D=N;EJLQP;=J@;?KJRANP;L=OOSKN@;?D=N=?PANO;PK;EJPca;L=OOSKN@g[,|//3+. ;%*%0%|(;/%6!g[CAP?D=Ng[a;EJPACAN;R=HQA;KB;L=OOSKN@dv
+			fclose(encrypted_output_file);
+			fclose(file);
+			return EXIT_SUCCESS;
+		}
 
-			?D=N[?Dmv
-			EJP[@A?NULPA@;R=Hv
-			"%(![e@A?NULPA@;KQPLQP;BEHA[x[BKLAJc=NCR7Tfm9g[]S]dv
-			SDEHA[cc?Dm[x[BCAP?cAJ?NULPA@;OKQN?A;BEHAdd[\x[!+"d
-			W
-				jj[?Dm[x[c?Dm[h[EJPACAN;R=HQA;KB;L=OOKSN@[h[nm[f[tpd[`[tp[f[nmv
-				jj[LNEJPBc]`?8J]g[?Dmdv
-				@A?NULPA@;R=H[x[?Dm[h[nm[h[;EJPACAN;R=HQA;KB;L=OOSKN@v
-				SDEHA[c@A?NULPA@;R=H[w[kd
-				W
-					@A?NULPA@;R=H[fx[tpv[jj[!JOQNA[PDA[NAOQHP[EO[LKOEPERA
-				Y
+		if (strcmp(argv[x], "-df") == 0)
+		{
+			// Handling decryption command
+			if (argc < x + 3)
+			{
+				printf("-df (Decrypt file) needs file path and output directory.\n");
+				break;
+			}
 
-				EB[c?Dm[xx[kd
-				W
-					jj[LQP?D=Ncb8Jbdv
-					BLQP?cb8Jbg[@A?NULPA@;KQPLQP;BEHAdv
-					jj[LNEJPBc]8J]dv
-					?KJPEJQAv
-				Y
-				
-				EBc?Dm[xx[tdW
-					BLQP?cb8Pbg[@A?NULPA@;KQPLQP;BEHAdv
-					?KJPEJQAv
-				Y
-	
-					?D=N[@A?NULPA@;?D[x[@A?NULPA@;R=H[w[nm[z[@A?NULPA@;R=H[f[tp[u[@A?NULPA@;R=H[w[lmr[z[@A?NULPA@;R=H
-																																[					u[@A?NULPA@;R=H[h[tpv
-					jj[LQP?D=Ncc?D=Ndc@A?NULPA@;?Dddv
-					BLQP?c@A?NULPA@;?Dg[@A?NULPA@;KQPLQP;BEHAdv
-				jj[LNEJPBc]`?]g[@A?NULPA@;?Ddv
-				
-			Y
-			B?HKOAc@A?NULPA@;KQPLQP;BEHAdv
-			>NA=Gv
-		Y
-	Y
+			if (!is_valid_path(argv[x + 1]))
+			{
+				printf("Invalid or non-existent file path: %s\n", argv[x + 1]);
+				break;
+			}
 
-	NAPQNJ[kv
-Y
+			FILE *encrypted_source_file = fopen(argv[x + 1], "r");
+			if (!encrypted_source_file)
+			{
+				perror("Error opening encrypted file");
+				return EXIT_FAILURE;
+			}
+
+			char *password;
+			int integer_value_of_password = 0;
+			puts("------------------------------");
+			printf("| File successfully loaded |\n");
+			puts("------------------------------\n");
+
+			printf("Enter your decryption string: ");
+			int result = getChar_input_and_convert_password_characters_to_int(&password, PASSWORD_INITIAL_SIZE, getchar, &integer_value_of_password);
+			puts("------------------------------");
+
+			if (result == 1)
+			{
+				fclose(encrypted_source_file);
+				printf("Error getting decryption string.\n");
+				return EXIT_FAILURE;
+			}
+
+			FILE *decrypted_output_file = fopen(argv[x + 2], "w");
+			if (!decrypted_output_file)
+			{
+				perror("Error opening output file");
+				fclose(encrypted_source_file);
+				return EXIT_FAILURE;
+			}
+
+			int is_decryption_success = decrypt(encrypted_source_file, &integer_value_of_password, decrypted_output_file, "");
+			if (is_decryption_success == 1)
+			{
+				printf("Decryption failed.\n");
+				fclose(decrypted_output_file);
+				fclose(encrypted_source_file);
+				return EXIT_FAILURE;
+			}
+
+			printf("| ** Decryption successful ** |\n");
+			puts("------------------------------");
+			printf("| Decrypted output file: %s |\n", argv[x + 2]);
+			puts("------------------------------");
+
+			fclose(decrypted_output_file);
+			fclose(encrypted_source_file);
+			return EXIT_SUCCESS;
+		}
+
+		if(strcmp(argv[x], "-h") == 0 || strcmp(argv[x], "-help") == 0){
+			print_korify_help_options();
+			break;
+		}
+		if(strcmp(argv[x], "-v") == 0 || strcmp(argv[x], "-version") == 0){
+			printf("korify version -> %s\n", KORIFY_CURRENT_VERSION);
+			break;
+		}
+	}
+
+	return 0;
+}

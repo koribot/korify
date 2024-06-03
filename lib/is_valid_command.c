@@ -1,9 +1,6 @@
 #include "commands.h"
-#include "isValidCommand.h"
-/// @brief Validate input commands
-/// @param argv
-/// @return boolean
-bool isValidCommand(char *argv)
+#include "is_valid_command.h"
+bool is_valid_command(char *argv)
 {
 	for (size_t b = 0; b < array_size; b++)
 	{

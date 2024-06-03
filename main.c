@@ -2,18 +2,17 @@
 #include "encrypt.h"
 #include "decrypt.h"
 #include "getChar_input_and_convert_password_characters_to_int.h"
-#include "isValidCommand.h"
+#include "is_valid_command.h"
+#include "is_valid_path.h"
+#include "print_korify_help_options.h"
+
 
 #define PASSWORD_INITIAL_SIZE 100
 #define KORIFY_CURRENT_VERSION "0.0.0"
 
-// Todo: this is not actually checking if the path is valid
-bool isValidPath(const char *path)
-{
-	return access(path, F_OK) != -1;
-}
 
-// This is not in used
+
+// This is not in used - dont delete yet
 void str_to_int(const char *_password_string, int *_int)
 {
 	for (int i = 0; i < strlen(_password_string); i++)
@@ -22,21 +21,10 @@ void str_to_int(const char *_password_string, int *_int)
 	}
 }
 
-void print_korify_help_options(){
-		printf("\nKorify Commands:\n\n");
-		printf("- Help (-h)(-help):\n\n");
-		printf("- Check korify version (-v)(-version):\n\n");
-		printf("- Encrypt File (-ef):\n");
-		printf("  Usage: ./kori -ef \"path to your source file\" \"path to your encrypted output file\"\n");
-		printf("  Example: ./kori -ef main.txt encrypted.txt\n\n");
-		printf("- Decrypt File (-df):\n");
-		printf("  Usage: ./kori -df \"path to your encrypted source file\" \"path to your decrypted output file\"\n");
-		printf("  Example: ./kori -df encrypted.txt decrypted.txt\n\n");
-}
-
 
 int main(int argc, char *argv[])
 {
+
 	if (argc <= 1)
 	{
 		printf("No command is passed. Try using kori -ef to encrypt file and -df to decrypt file.\n");
@@ -46,22 +34,23 @@ int main(int argc, char *argv[])
 
 	for (int x = 1; x < argc; x++)
 	{
-		if (!isValidCommand(argv[x]))
+		if (!is_valid_command(argv[x]))
 		{
 			printf("Invalid Command: %s\n", argv[x]);
 			break;
 		}
 
+		// Handling encryption command
 		if (strcmp(argv[x], "-ef") == 0)
 		{
-			// Handling encryption command
+			
 			if (argc < x + 3)
 			{
 				printf("-ef (Encrypt file) needs file path and output directory.\n");
 				break;
 			}
 
-			if (!isValidPath(argv[x + 1]))
+			if (!is_valid_path(argv[x + 1]))
 			{
 				printf("Invalid or non-existent file path: %s\n", argv[x + 1]);
 				break;
@@ -119,16 +108,16 @@ int main(int argc, char *argv[])
 			return EXIT_SUCCESS;
 		}
 
+		// Handling decryption command
 		if (strcmp(argv[x], "-df") == 0)
 		{
-			// Handling decryption command
 			if (argc < x + 3)
 			{
 				printf("-df (Decrypt file) needs file path and output directory.\n");
 				break;
 			}
 
-			if (!isValidPath(argv[x + 1]))
+			if (!is_valid_path(argv[x + 1]))
 			{
 				printf("Invalid or non-existent file path: %s\n", argv[x + 1]);
 				break;
@@ -149,7 +138,6 @@ int main(int argc, char *argv[])
 
 			printf("Enter your decryption string: ");
 			int result = getChar_input_and_convert_password_characters_to_int(&password, PASSWORD_INITIAL_SIZE, getchar, &integer_value_of_password);
-			puts("------------------------------");
 
 			if (result == 1)
 			{
@@ -174,21 +162,29 @@ int main(int argc, char *argv[])
 				fclose(encrypted_source_file);
 				return EXIT_FAILURE;
 			}
-
+			puts("------------------------------");
 			printf("| ** Decryption successful ** |\n");
 			puts("------------------------------");
+         
+			puts("");
+
+			puts("---------------------------------------------");
 			printf("| Decrypted output file: %s |\n", argv[x + 2]);
-			puts("------------------------------");
+			puts("---------------------------------------------");
 
 			fclose(decrypted_output_file);
 			fclose(encrypted_source_file);
 			return EXIT_SUCCESS;
 		}
 
+		// Handling -h -help command
 		if(strcmp(argv[x], "-h") == 0 || strcmp(argv[x], "-help") == 0){
 			print_korify_help_options();
 			break;
 		}
+		
+
+		// Handling -v -version command
 		if(strcmp(argv[x], "-v") == 0 || strcmp(argv[x], "-version") == 0){
 			printf("korify version -> %s\n", KORIFY_CURRENT_VERSION);
 			break;

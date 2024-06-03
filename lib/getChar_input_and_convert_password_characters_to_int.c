@@ -1,11 +1,4 @@
-
 #include "getChar_input_and_convert_password_characters_to_int.h"
-/// @brief get user input (encryption string) and turns it to int
-/// @param password - expects a pointer to pointer to character char **password, pass with &password
-/// @param size  - initial size of the password - pass by value
-/// @param getChar - pass the getChar without * or & or ()
-/// @param integer_value_of_password - int, pass it with &integer_value_of_password
-/// @return returns 0 if success otherwise 1
 int getChar_input_and_convert_password_characters_to_int(char **password, int size, int (*getcharfn)(void), int *integer_value_of_password)
 {
 	int len = 0;
