@@ -1,16 +1,33 @@
 # Korify 🗜️
 
-Under 🚧 🛠️
+
+It is still Under 🚧 🛠️
 
 - This is me trying to explore C, the concept of pointers, and the like. The encryption "algorithm" is not good (it's actually bad) and needs a lot of work.
 
+- 👇 What is Korify 👇
+```
+korify is a  CLI tool designed for encrypting and decrypting plain text files of various formats, including:
+
+📄 .txt
+💻 .c
+🔧 .cpp
+🌐 .js
+...and more!
+
+🔒 Encrypt Files: Secure your files by encrypting them with a custom encryption key/string.
+🔓 Decrypt Files: Decrypt your files using the same encryption key/string.
+❗  Warning: Decrypting a file with the wrong key will still produce an output, but the content will differ from the original.
+
+```
+
 ## Usage
-- You need to install C compiler, (gcc llvm)
+- You need to install C compiler, (gcc, llvm)
 - Compile the program
     ```
     gcc -Iheaders -o kori main.c lib/*.c
     ```
-    - Alternatively if can download the pre-combiled version                 https://github.com/koribot/korify/releases/tag/v0.0.0 
+    - Alternatively you can download the pre-combiled version                 https://github.com/koribot/korify/releases/tag/v0.0.0 
       , after donwloading it you cant open it directly as it will close immediately, you can run  it by opening cmd in current directory where the pre-combiled version is downloaded and run:
       ```
         kori.exe "choose your command"
