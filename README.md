@@ -1,4 +1,4 @@
-# Korify
+# Korify 🗜️
 
 Under 🚧 🛠️
 
@@ -35,7 +35,7 @@ Under 🚧 🛠️
         | Encrypted output file ->: main_decrypted.txt |
         --------------------------------------------
     ```
-    - Decrypt file
+    - Decrypt file -> (You can try to decrypt `main_encrypted.txt` with decryption string: walid)
     ```
      ./kori -df "path to your encrypted source file" "path to your decrypted output file"
     ```
@@ -53,7 +53,7 @@ Under 🚧 🛠️
     ```
     - Even if you provide wrong decryption key it will still print "Successfully Decrypted",
       but the output file will not be the same as the original file
-
+    
 
 
 ## Commands
@@ -73,6 +73,6 @@ Under 🚧 🛠️
 
 
 ## Todos
-- make a better way of checking valid path
-- improve encrypting logic
-- simplify the code
+- [ ] make a better way of checking valid path
+- [ ] improve encrypting logic - maybe provide a list of encryption "technique" to users
+- [ ] make it cross platform
