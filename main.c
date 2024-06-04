@@ -88,8 +88,8 @@ int main(int argc, char *argv[])
 				fclose(file);
 				return EXIT_FAILURE;
 			}
-
-			int is_encryption_success = encrypt(file, &integer_value_of_password, encrypted_output_file, "");
+			char *mode = argv[x+3] ? argv[x+3] : "";
+			int is_encryption_success = encrypt(file, &integer_value_of_password, encrypted_output_file, mode);
 			if (is_encryption_success == 1)
 			{
 				printf("Encryption failed.\n");
@@ -153,8 +153,8 @@ int main(int argc, char *argv[])
 				fclose(encrypted_source_file);
 				return EXIT_FAILURE;
 			}
-
-			int is_decryption_success = decrypt(encrypted_source_file, &integer_value_of_password, decrypted_output_file, "");
+			char *mode = argv[x+3] ? argv[x+3] : "";
+			int is_decryption_success = decrypt(encrypted_source_file, &integer_value_of_password, decrypted_output_file, mode);
 			if (is_decryption_success == 1)
 			{
 				printf("Decryption failed.\n");

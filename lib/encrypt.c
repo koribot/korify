@@ -16,10 +16,14 @@ int encrypt(FILE *file, int *integer_value_of_passowrd, FILE *encrypted_output_f
 	char ch;
 	while ((ch = fgetc(file)) != EOF)
 	{
-
+		// this will show the ch prior to encyrpting - just to show how fgetc interpret each byte
+		if (strcmp(mode, "debug-show-orig") == 0)
+		{
+			printf("%c", ch);
+		}
 		if (ch == '\n')
 		{
-			if (strcmp(mode, "debug") == 0)
+			if (strcmp(mode, "debug") == 0 || strcmp(mode, "debug-show-orig"))
 			{
 				printf("\n");
 			}
@@ -28,7 +32,7 @@ int encrypt(FILE *file, int *integer_value_of_passowrd, FILE *encrypted_output_f
 		}
 		if (ch == '\t')
 		{
-			if (strcmp(mode, "debug") == 0)
+			if (strcmp(mode, "debug") == 0 || strcmp(mode, "debug-show-orig"))
 			{
 				printf("\t");
 			}
