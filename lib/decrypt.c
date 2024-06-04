@@ -1,8 +1,8 @@
 #include "decrypt.h"
 
-int decrypt(struct _iobuf *encrypted_source_file, int *integer_value_of_password, struct _iobuf *decrypted_output_file, char *mode)
+int decrypt(FILE *encrypted_source_file, int *integer_value_of_password, FILE *decrypted_output_file, char *mode)
 {
-   // Todo: figure out how to use variad -> for now use fixed arguments
+	// Todo: figure out how to use variad -> for now use fixed arguments
 	// va_list args;
 	// va_start(args, decrypted_output_file);
 	// char *testprint = va_arg(args, char *) ? "no debug" : "debug";
@@ -44,7 +44,7 @@ int decrypt(struct _iobuf *encrypted_source_file, int *integer_value_of_password
 		}
 
 		char decrypted_ch = decrypted_val < 32 ? decrypted_val + 95 : decrypted_val < 127 ? decrypted_val
-																													 : decrypted_val - 95;
+																																											: decrypted_val - 95;
 		// putchar((char)(decrypted_ch));
 		fputc(decrypted_ch, decrypted_output_file);
 		// printf("%c", decrypted_ch);

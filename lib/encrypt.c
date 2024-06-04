@@ -1,5 +1,5 @@
 #include "encrypt.h"
-int encrypt(struct _iobuf *file, int *integer_value_of_passowrd, struct _iobuf *encrypted_output_file, char *mode)
+int encrypt(FILE *file, int *integer_value_of_passowrd, FILE *encrypted_output_file, char *mode)
 {
 	// Todo: figure out how to use variad -> for now use fixed arguments
 	// va_list args;
