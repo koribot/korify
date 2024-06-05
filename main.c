@@ -21,10 +21,8 @@ void str_to_int(const char *_password_string, int *_int)
 	}
 }
 
-
 int main(int argc, char *argv[])
 {
-
 	if (argc <= 1)
 	{
 		printf("No command is passed. Try using kori -ef to encrypt file and -df to decrypt file.\n");

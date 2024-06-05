@@ -32,7 +32,7 @@ int decrypt(FILE *encrypted_source_file, int *integer_value_of_password, FILE *d
 		{
 			// putchar('\n');
 			fputc('\n', decrypted_output_file);
-			if (strcmp(mode, "debug") == 0 || strcmp(mode, "debug-show-orig"))
+			if (strcmp(mode, "debug") == 0 || strcmp(mode, "debug-show-orig") == 0)
 			{
 				printf("\n");
 			}
@@ -42,7 +42,7 @@ int decrypt(FILE *encrypted_source_file, int *integer_value_of_password, FILE *d
 		if (ch2 == 9)
 		{
 			fputc('\t', decrypted_output_file);
-			if (strcmp(mode, "debug") == 0 || strcmp(mode, "debug-show-orig"))
+			if (strcmp(mode, "debug") == 0 || strcmp(mode, "debug-show-orig") == 0)
 			{
 				printf("\t");
 			}
@@ -50,7 +50,7 @@ int decrypt(FILE *encrypted_source_file, int *integer_value_of_password, FILE *d
 		}
 
 		char decrypted_ch = decrypted_val < 32 ? decrypted_val + 95 : decrypted_val < 127 ? decrypted_val
-																																											: decrypted_val - 95;
+																																		: decrypted_val - 95;
 		// putchar((char)(decrypted_ch));
 		fputc(decrypted_ch, decrypted_output_file);
 		// printf("%c", decrypted_ch);
